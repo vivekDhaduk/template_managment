@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Editor from "../Components/Editor";
 import "../App.css";
 
-const VIEW_Template = ({ logout }) => {
+const VIEW_Template = () => {
   const { id } = useParams();
   const [template, setTemplate] = useState([]);
   const [currentUser, setCurrentUser] = useState();
@@ -12,15 +12,14 @@ const VIEW_Template = ({ logout }) => {
   const [srcDoc, setSrcDoc] = useState(htmlText);
   const [show, setShow] = useState(false);
   const [updatedshow, setUpdatedShow] = useState(false);
-  const [updatedtempletID, setUpdatedtemplateID] = useState()
-  console.log(updatedtempletID);
+  const [updatedtempletID, setUpdatedtemplateID] = useState();
 
   useEffect(() => {
     const template = JSON.parse(localStorage.getItem("template"));
     if (template) {
       setTemplate(template);
     }
-    setCurrentUser(template.find((data) => data.id == id));
+    setCurrentUser(template?.find((data) => data.id == id));
   }, []);
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const VIEW_Template = ({ logout }) => {
           <body>${htmlText}</body>
         </html>
       `);
-    }, 250);
+    }, 150);
 
     return () => clearTimeout(timeout);
   }, [htmlText]);
@@ -41,15 +40,15 @@ const VIEW_Template = ({ logout }) => {
     setSrcDoc(htmlText);
   };
 
-  const onUpdatedEdit = (updatedhtml,id) => {
+  const onUpdatedEdit = (updatedhtml, id) => {
     setUpdatedShow(!updatedshow);
     setHtmlText(updatedhtml);
     setSrcDoc(htmlText);
-    setUpdatedtemplateID(id)
+    setUpdatedtemplateID(id);
   };
 
   const onSave = () => {
-    onEdit()
+    onEdit();
     let updetedTemplate = {
       id: Math.floor(1000 + Math.random() * 9000),
       updatedAT: new Date().toLocaleString(),
@@ -69,14 +68,14 @@ const VIEW_Template = ({ logout }) => {
 
   const saveupadetedtemplates = () => {
     currentUser?.updatedtemplate.filter((item) => {
-      if(item.id == updatedtempletID){
-        item.updatedAT = new Date().toLocaleString()
-        item.updatedhtml = htmlText
+      if (item.id == updatedtempletID) {
+        item.updatedAT = new Date().toLocaleString();
+        item.updatedhtml = htmlText;
       }
-    })
+    });
     localStorage.setItem("template", JSON.stringify(template));
-    setUpdatedShow(false)
-  }
+    setUpdatedShow(false);
+  };
   return (
     <div className="view-templates-section">
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -93,11 +92,11 @@ const VIEW_Template = ({ logout }) => {
               </Link>
             </li>
 
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link " to="/" onClick={logout}>
                 Logout{" "}
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link className="nav-link " to="/showtemplate">
                 View Template
@@ -190,7 +189,7 @@ const VIEW_Template = ({ logout }) => {
                 <p>{item?.updatedhtml}</p>
                 <button
                   className="btn btn-outline-success editor-footer-btn"
-                  onClick={() => onUpdatedEdit(item.updatedhtml,item.id)}
+                  onClick={() => onUpdatedEdit(item.updatedhtml, item.id)}
                 >
                   View
                 </button>
@@ -229,7 +228,7 @@ const VIEW_Template = ({ logout }) => {
           <button
             className="btn btn-outline-warning editor-footer-btn"
             onClick={() => saveupadetedtemplates()}
-            style={{marginLeft:"20px"}}
+            style={{ marginLeft: "20px" }}
           >
             Save upadeted
           </button>

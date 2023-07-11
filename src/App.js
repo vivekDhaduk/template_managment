@@ -44,7 +44,7 @@ function App() {
         <Route exact path="/users" element={<UsersList logout={() => setUser(false)} />} /> 
         <Route exact path="/showtemplate" element={<SHOW_Templates logout={() => setUser(false)} />} /> 
         <Route exact path="/addtemplate" element={<ADD_Templates logout={() => setUser(false)} />} /> 
-        <Route exact path="/Viewtemplate/:id" element={<VIEW_Template logout={() => setUser(false)} />} /> 
+        <Route exact path="/Viewtemplate/:id" element={<VIEW_Template />} /> 
         <Route exact path="*" element={<Navigate to={"/showtemplate"} />} />
 
         </> )}
@@ -55,6 +55,14 @@ function App() {
 }
 
 export default App;
+
+// a = ["a","b","c","d","e","a","c","a","b"]
+// result = { };
+// for(var i = 0; i < a.length; ++i) {
+//     if(!result[a[i]])
+//         result[a[i]] = 0;
+//     ++result[a[i]];
+// }
 
 
 
